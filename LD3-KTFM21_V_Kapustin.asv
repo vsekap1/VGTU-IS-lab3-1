@@ -1,0 +1,13 @@
+%% Trecias laboratorinis darbas
+% Spindulio tipo baziniu funkciju naudojimas perceptorno sudarymui
+% Atliko KTFM-21 Grupes studentas: Vsevolod Kapustin
+
+function rbf_stuktura()
+%% Perceptrono struktura
+% Iejimo sluoksnis - 1 neuronas
+% Pasle
+
+
+
+
+end

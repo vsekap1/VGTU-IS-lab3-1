@@ -1,0 +1,87 @@
+%% Trecias laboratorinis darbas
+% Spindulio tipo baziniu funkciju naudojimas perceptorno sudarymui
+% Atliko KTFM-21 Grupes studentas: Vsevolod Kapustin
+clear all
+clc
+
+%% Perceptrono struktura
+% Pasleptas sluoksnis - 2 neuronai su RBF aktyvavimu
+% Isejimo sluosksnis - 1 neuronas su tiesiniu aktyvavimu
+
+%% Iejimo vektoriaus aprasymas
+x = 0.1:1/22:1;
+y = isejimo_funkcija(x);
+
+
+%% RBF sluoksnio skaiciavimas
+% 1 neurono isejimas (iejimas skaiciuojamas be svoriu)
+% neuronu parametrai
+c1 = 0;
+c2 = 3;
+r1 = 1.5;
+r2 = 2;
+
+f1 = rbf_aktyvavimas(x, c1, r1);
+f2 = rbf_aktyvavimas(x, c2, r2);
+
+% neuronu aktyvavimo funkcijos braizymas
+figure(1)
+plot(x, f1, '--b', x, f2, '--r');
+
+
+%% Isejimo sluoksnio skaiciavimas
+% Generuojami atsitiktiniai svoriai ir neuronu pralaidos koeficientai
+w1 = [randn(1) randn(1) randn(1) randn(1) randn(1) randn(1)...
+    randn(1) randn(1) randn(1) randn(1) randn(1) randn(1) randn(1) ...
+    randn(1) randn(1) randn(1) randn(1) randn(1) randn(1) randn(1)];
+w2 = [randn(1) randn(1) randn(1) randn(1) randn(1) randn(1)...
+    randn(1) randn(1) randn(1) randn(1) randn(1) randn(1) randn(1) ...
+    randn(1) randn(1) randn(1) randn(1) randn(1) randn(1) randn(1)];
+b = [randn(1) randn(1) randn(1) randn(1) randn(1) randn(1)...
+    randn(1) randn(1) randn(1) randn(1) randn(1) randn(1) randn(1) ...
+    randn(1) randn(1) randn(1) randn(1) randn(1) randn(1) randn(1)];
+
+% isejimo neurono svoriu funkcija
+v = f1.*w1 + f2.*w2 + b;
+
+% Isejimo neurono aktyvavimo funkcija -- tiesine
+
+yy = v;
+% isejimo funkcijos braizymas
+figure(2)
+plot(x, yy, '*r-', x, y, '*b-');
+
+% Skaiciojamas klaidu vektorius
+
+e = y - yy;
+
+
+
+%% Perceptrono mokymas, vykdomas kiekvienai isejimo vertei atskirai
+
+    miu = 0.1;
+    while e(1)~=0
+        % Atnajinami svoriai ir isejimo perceptrono "bias" naudojant mokymo eile miu = 0.1
+        w1(1)= w1(1) + miu*e(1)*x(1);
+        w2(1)= w2(1) + miu*e(1)*x(1);
+        b(1) = b(1) + miu*e(1);
+        v = f1(*w1 + f2(1)*w2 + b;
+        yy = v;
+        
+        e(1)=y-yy
+        
+        
+    end
+
+%% Isejimo funkcija
+function y = isejimo_funkcija(x)
+    y = ((1 + 0.6*sin(2*pi*x/0.7)) + 0.3*sin(2*pi*x))/2;
+end
+
+%% Spindulio tipo funkcija
+function f = rbf_aktyvavimas(x, c, r)
+% x - iejimo vektorius
+% c - centro parametras
+% r - spindulys
+    f = exp(-(x-c).^2/(2*r.^2));
+end
